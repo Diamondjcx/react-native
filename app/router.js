@@ -5,6 +5,7 @@ import LoginPage from './components/LoginPage';
 import DynamicPage from './components/DynamicPage';
 import TrendPage from './components/TrendPage';
 import MyPage from './components/MyPage';
+import LoadingModal from './components/common/LoadingModal';
 import SearchButton from './components/widget/CustomSearchButton' ;
 // import { View,Text } from "react-native";
 // // import console = require('console');
@@ -15,9 +16,9 @@ import SearchButton from './components/widget/CustomSearchButton' ;
 // /**
 //  * 全局路由
 //  */
-const getRouter = () =>  (
+const getRouter = () =>  {
     // <View ><Text>12222111</Text></View>
-    <Router
+   return ( <Router
     >
       <Lightbox>
         <Scene key="LoginPage">
@@ -60,9 +61,12 @@ const getRouter = () =>  (
             </Scene>
           </Scene>
         </Scene>
+        <Scene key="LoadingModal" component={LoadingModal} />
+        
       </Lightbox>
     </Router>
-  );
+   )
+};
 
 export default getRouter;
 
