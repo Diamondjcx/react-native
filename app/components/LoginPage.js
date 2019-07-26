@@ -3,9 +3,14 @@ import React, {Component} from 'react';
 import {
     Text,
     View,
-    TextInput,
-    Button,
+    TouchableOpacity,
+    Animated,
+    Image,
+    StatusBar,
+    BackHandler,
     Keyboard,
+    Linking,
+    Easing
 } from 'react-native';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
@@ -19,6 +24,10 @@ import Toast from './common/ToastProxy'
 import styles, {screenHeight, screenWidth} from "../style"
 import loginActions from '../store/actions/login'
 import { login } from '../common.api';
+import LottieView from 'lottie-react-native';
+
+
+const animaTime = 600;
 // import console = require('console');
 /**
  * 登陆Modal
@@ -42,15 +51,31 @@ import { login } from '../common.api';
         this.state = {
             saveUserName : '',
             savePassword : '',
+            secureTextEntry: true,
+            secureIcon: "eye-with-line",
+            opacity: new Animated.Value(0),
+            progress: new Animated.Value(0),
         }
     }
 
     componentDidMount() {
-
+        this.onOpen();
+        this.handle = BackHandler.addEventListener('hardwareBackPress-LoginPage', this.onClose)
+        Animated.timing(this.state.opacity, {
+            duration: animaTime,
+            toValue: 1,
+        }).start();
+        this.startAnimation();
     }
 
     componentWillUnmount() {
-
+        this.thisUnmount = true;
+        if (this.handle) {
+            this.handle.remove();
+        }
+        if (this.refs.lottieView) {
+            this.refs.lottieView.reset();
+        }
     }
 
     userInputChange = (text) => {
@@ -67,6 +92,48 @@ import { login } from '../common.api';
             // 回到上一个页面
             Actions.pop();
         }
+    }
+    onOpen() {
+        loginActions.getLoginParams().then((res) => {
+            this.setState({
+                saveUserName: res.userName,
+                savePassword: res.password
+            });
+            this.params.userName = res.userName;
+            this.params.password = res.password;
+        });
+    }
+
+    onClose() {
+        if (Actions.state.index === 0) {
+            return false;
+        }
+        Animated.timing(this.state.opacity, {
+            duration: animaTime,
+            toValue: 0,
+        }).start(Actions.pop());
+        return true;
+
+    }
+
+    startAnimation() {
+        if (this.thisUnmount) {
+            return;
+        }
+        Animated.timing(this.state.progress, {
+            toValue: 1,
+            duration: 2000,
+            easing: Easing.linear
+        }).start(({finished}) => {
+            /*if (!finished) {
+                return;
+            }
+            //重复播放
+            this.setState({
+                progress: new Animated.Value(0),
+            });
+            this.startAnimation()*/
+        });
     }
     onClickLogin = () => {
         if (!this.params.userName || this.params.userName.length === 0) {
@@ -97,13 +164,14 @@ import { login } from '../common.api';
 
     onLogin = async (values) => {
         this.exitLoading();
-        const rs = await login(values);
-        console.log(rs);
-        if (rs && rs.responseCode === 10007) {
-          this.exitLoading();
-          this.props.dispatch(saveUserInfo(rs.data));
-          this.toDefaultPath(rs.data);
-        }
+        // const rs = await login(values);
+        // console.log(rs);
+        // if (rs && rs.responseCode === 10007) {
+        //   this.exitLoading();
+        //   this.props.dispatch(saveUserInfo(rs.data));
+        //   this.toDefaultPath(rs.data);
+        // }
+        Actions.reset("root")
       }
 
     // 路由跳转
@@ -112,6 +180,49 @@ import { login } from '../common.api';
         Actions.reset("root")
     }
     render() {
+        // let textInputProps = {
+        //     style: {width: 250, height: 70, backgroundColor: Constant.miWhite},
+        //     activeColor: Constant.primaryColor,
+        //     passiveColor: '#dadada',
+        //     iconClass: Icon,
+        //     iconColor: Constant.primaryColor,
+        //     iconSize: 25,
+        //     clearButtonMode: "always"
+        // };
+        // return (
+        //     <View >
+        //         <View style={[styles.centered, {marginTop: Constant.normalMarginEdge}]}>
+
+        //             <Fumi
+        //             ref={"userNameInput"}
+        //             {...textInputProps}
+        //             label={I18n('UserName')}
+        //             iconName={'user-circle-o'}
+        //             value={this.state.saveUserName}
+        //             onChangeText={this.userInputChange}
+        //             />
+        //         </View>
+        //         <View  style={[styles.centered, {marginTop: Constant.normalMarginEdge}]}>
+        //             <Fumi
+        //             ref={"passwordInput"}
+        //             {...textInputProps}
+        //             label={I18n('Password')}
+        //             returnKeyType={'send'}
+        //             iconName={'keyboard-o'}
+        //             value={this.state.savePassword}
+        //             onChangeText={this.passwordChange}
+        //             />
+        //         </View>
+        //         <View>
+        //             <Button
+        //             onPress={this.onClickLogin}
+        //             title="登录"
+        //         />
+        //         </View>
+        //     </View>
+        // )
+
+
         let textInputProps = {
             style: {width: 250, height: 70, backgroundColor: Constant.miWhite},
             activeColor: Constant.primaryColor,
@@ -122,36 +233,109 @@ import { login } from '../common.api';
             clearButtonMode: "always"
         };
         return (
-            <View >
-                <View style={[styles.centered, {marginTop: Constant.normalMarginEdge}]}>
-
-                    <Fumi
-                    ref={"userNameInput"}
-                    {...textInputProps}
-                    label={I18n('UserName')}
-                    iconName={'user-circle-o'}
-                    value={this.state.saveUserName}
-                    onChangeText={this.userInputChange}
-                    />
+            <Animated.View
+                style={[styles.centered, styles.absoluteFull, {backgroundColor: Constant.primaryColor}, {opacity: this.state.opacity}]}>
+                <Text>1111</Text>
+                <StatusBar hidden={false} backgroundColor={Constant.primaryColor} translucent
+                           barStyle={'light-content'}/>
+                <View style={[styles.absoluteFull, {zIndex: -999, justifyContent: 'flex-end'}]}>
+                    <View style={{width: screenWidth, height: screenHeight / 2}}>
+                        <LottieView
+                            ref="lottieView"
+                            style={{width: screenWidth, height: screenHeight / 2}}
+                            source={require('../style/lottie/animation-login.json')}
+                            progress={this.state.progress}
+                        />
+                    </View>
                 </View>
-                <View  style={[styles.centered, {marginTop: Constant.normalMarginEdge}]}>
-                    <Fumi
-                    ref={"passwordInput"}
-                    {...textInputProps}
-                    label={I18n('Password')}
-                    returnKeyType={'send'}
-                    iconName={'keyboard-o'}
-                    value={this.state.savePassword}
-                    onChangeText={this.passwordChange}
-                    />
+                <View
+                    style={[{backgroundColor: Constant.miWhite}, {
+                        height: 360,
+                        width: screenWidth - 80,
+                        margin: 50,
+                        borderRadius: 10
+                    }]}
+                    onClosed={this.onClose}
+                    onOpened={this.onOpen}>
+                    <View style={[styles.centered, {marginTop: Constant.normalMarginEdge}]}>
+                        <Image source={require("../img/logo.png")}
+                               resizeMode={"contain"}
+                               style={{width: 80, height: 80}}/>
+                    </View>
+                    <View style={[styles.centered, {marginTop: Constant.normalMarginEdge}]}>
+                        <Fumi
+                            ref={"userNameInput"}
+                            {...textInputProps}
+                            label={I18n('UserName')}
+                            iconName={'user-circle-o'}
+                            value={this.state.saveUserName}
+                            onChangeText={this.userInputChange}
+                        />
+                    </View>
+                    <View style={[styles.centered, {marginTop: Constant.normalMarginEdge}]}>
+                        <Fumi
+                            ref={"passwordInput"}
+                            {...textInputProps}
+                            label={I18n('Password')}
+                            returnKeyType={'send'}
+                            secureTextEntry={this.state.secureTextEntry}
+                            password={this.state.secureTextEntry}
+                            iconName={'keyboard-o'}
+                            value={this.state.savePassword}
+                            onChangeText={this.passwordChange}
+                        />
+                        <View style={[{
+                            position: "absolute",
+                            left: screenWidth - 150,
+                            right: 2 * Constant.normalMarginEdge,
+                            zIndex: 12,
+                        }, styles.alignItemsEnd]}>
+                            <TouchableOpacity style={[styles.centered, {
+                                marginTop: Constant.normalMarginEdge,
+                                padding: Constant.normalMarginEdge
+                            }]}
+                                onPress={() => {
+                                    this.setState({
+                                        saveUserName: this.params.userName,
+                                        savePassword: this.params.password,
+                                        secureIcon: (this.state.secureTextEntry) ? "eye" : "eye-with-line",
+                                        secureTextEntry: !this.state.secureTextEntry,
+                                    });
+                                }}>
+                                <IconC name={this.state.secureIcon}
+                                       backgroundColor={Constant.transparentColor}
+                                       color={Constant.primaryColor} size={13}
+                                       style={styles.centered}/>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View>
+                    </View>
+                    <TouchableOpacity style={[styles.centered, {marginTop: Constant.normalMarginEdge}]}
+                        onPress={() => {
+                            this.onClickLogin();
+                        }}>
+                        <View
+                            style={[styles.centered, {
+                                backgroundColor: Constant.primaryColor,
+                                width: 230,
+                                marginTop: Constant.normalMarginEdge,
+                                paddingHorizontal: Constant.normalMarginEdge,
+                                paddingVertical: Constant.normalMarginEdge,
+                                borderRadius: 5
+                            }]}>
+                            <Text style={[styles.normalTextWhite]}>{I18n('Login')}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.centered, {marginTop: Constant.normalMarginEdge}]}
+                        onPress={() => {
+                            Linking.openURL("https://github.com/join")
+                        }}>
+                        <Text
+                            style={[styles.subSmallText,]}>{" " + I18n('register') + " "}</Text>
+                    </TouchableOpacity>
                 </View>
-                <View>
-                    <Button
-                    onPress={this.onClickLogin}
-                    title="登录"
-                />
-                </View>
-            </View>
+            </Animated.View>
         )
     }
 }
