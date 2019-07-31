@@ -67,9 +67,11 @@ export const normalNumberOfLine = 4;
 
 /****************图标****************/
 export const nextIcon = 'chevron-right';
-export const tabRecommended = 'activity';
-export const tabDynamic = 'aperture';
-export const tabMy = 'users';
+export const tabDataManage = 'activity';
+export const tabHome = 'aperture';
+export const tabNameOption = 'users';
+export const tabVipUnlock = 'users';
+export const tabOther = 'users';
 
 
 /****************常量****************/

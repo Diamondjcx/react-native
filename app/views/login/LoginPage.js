@@ -15,15 +15,15 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {Actions} from 'react-native-router-flux';
-import * as Constant from "../style/constant"
-import I18n from '../style/i18n'
+import * as Constant from "../../style/constant"
+import I18n from '../../style/i18n'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import IconC from 'react-native-vector-icons/Entypo'
 import {Fumi} from 'react-native-textinput-effects';
-import Toast from './common/ToastProxy'
-import styles, {screenHeight, screenWidth} from "../style"
-import loginActions from '../store/actions/login'
-import { login } from '../common.api';
+import Toast from '../../components/common/ToastProxy'
+import styles, {screenHeight, screenWidth} from "../../style"
+import loginActions from '../../store/actions/login'
+import { login } from '../../common.api';
 import LottieView from 'lottie-react-native';
 
 
@@ -180,49 +180,6 @@ const animaTime = 600;
         Actions.reset("root")
     }
     render() {
-        // let textInputProps = {
-        //     style: {width: 250, height: 70, backgroundColor: Constant.miWhite},
-        //     activeColor: Constant.primaryColor,
-        //     passiveColor: '#dadada',
-        //     iconClass: Icon,
-        //     iconColor: Constant.primaryColor,
-        //     iconSize: 25,
-        //     clearButtonMode: "always"
-        // };
-        // return (
-        //     <View >
-        //         <View style={[styles.centered, {marginTop: Constant.normalMarginEdge}]}>
-
-        //             <Fumi
-        //             ref={"userNameInput"}
-        //             {...textInputProps}
-        //             label={I18n('UserName')}
-        //             iconName={'user-circle-o'}
-        //             value={this.state.saveUserName}
-        //             onChangeText={this.userInputChange}
-        //             />
-        //         </View>
-        //         <View  style={[styles.centered, {marginTop: Constant.normalMarginEdge}]}>
-        //             <Fumi
-        //             ref={"passwordInput"}
-        //             {...textInputProps}
-        //             label={I18n('Password')}
-        //             returnKeyType={'send'}
-        //             iconName={'keyboard-o'}
-        //             value={this.state.savePassword}
-        //             onChangeText={this.passwordChange}
-        //             />
-        //         </View>
-        //         <View>
-        //             <Button
-        //             onPress={this.onClickLogin}
-        //             title="登录"
-        //         />
-        //         </View>
-        //     </View>
-        // )
-
-
         let textInputProps = {
             style: {width: 250, height: 70, backgroundColor: Constant.miWhite},
             activeColor: Constant.primaryColor,
@@ -235,7 +192,6 @@ const animaTime = 600;
         return (
             <Animated.View
                 style={[styles.centered, styles.absoluteFull, {backgroundColor: Constant.primaryColor}, {opacity: this.state.opacity}]}>
-                <Text>1111</Text>
                 <StatusBar hidden={false} backgroundColor={Constant.primaryColor} translucent
                            barStyle={'light-content'}/>
                 <View style={[styles.absoluteFull, {zIndex: -999, justifyContent: 'flex-end'}]}>
@@ -243,7 +199,7 @@ const animaTime = 600;
                         <LottieView
                             ref="lottieView"
                             style={{width: screenWidth, height: screenHeight / 2}}
-                            source={require('../style/lottie/animation-login.json')}
+                            source={require('../../style/lottie/animation-login.json')}
                             progress={this.state.progress}
                         />
                     </View>
@@ -258,7 +214,7 @@ const animaTime = 600;
                     onClosed={this.onClose}
                     onOpened={this.onOpen}>
                     <View style={[styles.centered, {marginTop: Constant.normalMarginEdge}]}>
-                        <Image source={require("../img/logo.png")}
+                        <Image source={require("../../img/logo.png")}
                                resizeMode={"contain"}
                                style={{width: 80, height: 80}}/>
                     </View>

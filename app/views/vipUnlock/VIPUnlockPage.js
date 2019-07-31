@@ -5,7 +5,7 @@ import { View, Text } from "react-native";
 
 
 
-export default class DynamicPage extends Component {
+export default class VIPUnlockPage extends Component {
   constructor() {
     super();
     this.state = {
@@ -15,7 +15,7 @@ export default class DynamicPage extends Component {
   render() {
     return <View >
         <Text>
-            我是推荐页
+            我是会员解锁页面
         </Text>
     </View>;
   }

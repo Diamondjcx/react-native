@@ -22,9 +22,11 @@ import Icon from 'react-native-vector-icons/Feather'
 
 
 const config = {
-    ["tabRecommended"]: 'activity',
-    ["tabDynamic"]: 'aperture',
-    ["tabMy"]: 'users',
+    ["tabDataManage"]: 'activity',
+    ["tabHome"]: 'aperture',
+    ["tabNameOption"]: 'users',
+    ["tabVipUnlock"]: 'users',
+    ["tabOther"]: 'users',
 };
 
 const propTypes = {
