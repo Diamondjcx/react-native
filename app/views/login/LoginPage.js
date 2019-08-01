@@ -10,7 +10,8 @@ import {
     BackHandler,
     Keyboard,
     Linking,
-    Easing
+    Easing,
+    StyleSheet
 } from 'react-native';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
@@ -295,6 +296,10 @@ const animaTime = 600;
         )
     }
 }
+
+  const _styles = StyleSheet.create({
+    
+  })
 
   const mapDispatchToProps = (dispatch) => {
     return {

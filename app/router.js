@@ -12,6 +12,8 @@ import SearchPage from './components/SearchPage';
 import SettingPage from './views/setting/SettingPage';
 
 import LoadingModal from './components/common/LoadingModal';
+import CommonBottomModal from './components/common/CommonBottomModal';
+import CommonConfirmModal from './components/common/CommonConfirmModal';
 import SearchButton from './components/widget/CustomSearchButton' ;
 import DrawerFilter from './components/widget/SearchDrawerFilter' ;
 import CustomBackButton from './components/widget/CustomBackButton';
@@ -137,6 +139,8 @@ const getRouter = () =>  {
         </Scene>
         <Scene key="ContactModal" component={ContactModal}/>
         <Scene key="LoadingModal" component={LoadingModal} />
+        <Scene key="BottomModal" component={CommonBottomModal} />
+        <Scene key="ConfirmModal" component={CommonConfirmModal} />
         {
         <Scene key="LoginPage">
           <Scene component={LoginPage} showLabel={true} hideNavBar />

@@ -25,7 +25,7 @@ class SearchButton extends Component {
     }
     contactAdmin = () => {
         console.log(1);
-        Actions.ContactModal()
+        Actions.ConfirmModal()
     }
 
     render() {

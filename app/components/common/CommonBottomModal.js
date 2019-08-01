@@ -5,19 +5,20 @@ import {
     View,
     TouchableOpacity,
     ScrollView,
+    StyleSheet,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import styles, {screenWidth, screenHeight} from "../../style/index"
 import * as Constant from "../../style/constant"
 import I18n from '../../style/i18n'
-import Modal from '../common/ModalBox';
+import Modal from './ModalBox';
 import {Actions} from "react-native-router-flux";
 
 
 /**
  * 联系管理员模态框
  */
-class ContactModal extends Component {
+class CommonBottomModal extends Component {
 
     constructor(props) {
         super(props);
@@ -26,8 +27,8 @@ class ContactModal extends Component {
     }
 
     componentDidMount() {
-        if (this.refs.contactModal)
-        this.refs.contactModal.open();
+        if (this.refs.CommonBottomModal)
+        this.refs.CommonBottomModal.open();
         console.log('联系管理员');
 
     }
@@ -42,7 +43,7 @@ class ContactModal extends Component {
     render() {
         let width = screenWidth - 100;
         return (
-            <Modal ref={"contactModal"}
+            <Modal ref={"CommonBottomModal"}
                 style={[{height: screenHeight, width: screenWidth, backgroundColor: "#F0000000"}]}
                 position={"bottom"}
                 onClosed={this.onClose}
@@ -50,29 +51,14 @@ class ContactModal extends Component {
                 backButtonClose={false}
                 swipeToClose={true}
                 backdropOpacity={0.8}>
-                <View style={[styles.centered, {height: screenHeight, width: screenWidth}]}>
-                    <View style={[styles.centered, {height: 100, width: screenWidth}]}>
+                <View style={[_styles.modalContainer, {height: screenHeight, width: screenWidth}]}>
+                    <View style={[styles.modalContentContainer, {height: 100, width: screenWidth}]}>
                         <ScrollView style={[{
                             backgroundColor: Constant.white,
                             borderRadius: 4,
-                            width: width,
+                            width: screenWidth,
                         }]}>
-                            <View >
-                                    <Text>联系客服</Text>
-                                    <Text>邮箱：3333333@qq.com</Text>
-                                    <Text>QQ：2222222</Text>
-                            </View>
-                            <View>
-                                    <TouchableOpacity
-                                    style={[styles.flex, styles.centerH, {
-                                        borderLeftWidth: 1,
-                                        borderLeftColor: Constant.miWhite,
-                                        borderBottomRightRadius: 3,
-                                    },]}
-                                    onPress={this.onClose}>
-                                    <Text style={[styles.normalText, {fontWeight: 'bold'}]}>{I18n("ok")}</Text>
-                                    </TouchableOpacity>
-                            </View>
+                             <Text>底部弹框</Text>
                         </ScrollView>
                     </View>
                 </View>
@@ -81,15 +67,28 @@ class ContactModal extends Component {
     }
 }
 
-ContactModal.propTypes = {
+CommonBottomModal.propTypes = {
     text: PropTypes.string,
     titleText: PropTypes.string,
     textConfirm: PropTypes.func,
 };
-ContactModal.defaultProps = {
+CommonBottomModal.defaultProps = {
     text: '',
     titleText: '',
 };
 
+const _styles = StyleSheet.create({
+    modalContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-start',
+    },
+    modalContentContainer: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+    }
+});
 
-export default ContactModal;
+export default CommonBottomModal;
