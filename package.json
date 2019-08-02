@@ -23,6 +23,7 @@
     "react-native-root-toast": "^3.1.2",
     "react-native-router-flux": "^4.0.6",
     "react-native-scrollable-tab-view": "^0.10.0",
+    "react-native-swipeout": "^2.3.6",
     "react-native-textinput-effects": "^0.5.1",
     "react-native-update": "^5.2.0",
     "react-native-vector-icons": "^6.6.0",
@@ -33,6 +34,7 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "rimraf": "^2.6.3",
+    "tcomb-form-native": "^0.6.20",
     "url-parse": "^1.4.7"
   },
   "devDependencies": {

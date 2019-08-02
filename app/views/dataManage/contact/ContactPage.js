@@ -3,35 +3,34 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, StatusBar } from "react-native";
 import {Actions} from 'react-native-router-flux';
-import styles from "../../style"
-import I18n from '../../style/i18n'
-import * as Constant from '../../style/constant'
-import CommonRowItem from '../../components/common/CommonRowItem'
-import TestRecoreList from './Components/TestRecoreList'
-import { testRecordData } from '../../common.api';
+import styles from "../../../style/index"
+import * as Constant from '../../../style/constant'
+import CommonRowItem from '../../../components/common/CommonRowItem'
+import { contactList } from '../../../common.api';
+import ContactList from '../Components/ContactList';
 
 
-export default class DataManagePage extends Component {
+export default class ContactPage extends Component {
   constructor() {
     super();
     this.state = {
-      testRecordData: null,
+      contactData: null,
     };
   }
 
   componentDidMount = () => {
-    this.getTestRecordData();
+    this.getContactList();
   }
 
   // 获取测算记录
-  getTestRecordData = async () => {
+  getContactList = async () => {
     let params = {
 
     };
-    const rs = await testRecordData();
+    const rs = await contactList();
     if (rs && rs.data) {
       this.setState({
-        testRecordData: rs.data
+        contactData: rs.data
       });
     }
   }
@@ -41,9 +40,10 @@ export default class DataManagePage extends Component {
     console.log(item.id);
   }
   render() {
-    const { testRecordData } = this.state;
+    const { contactData } = this.state;
+    console.log(contactData);
     return(
-      <View style={_styles.datamanageContainer}>
+      <View style={_styles.contactPageContainer}>
          <StatusBar hidden={false} backgroundColor={'transparent'} translucent barStyle={'light-content'}/>
          <CommonRowItem
          showIconNext={true}
@@ -59,55 +59,55 @@ export default class DataManagePage extends Component {
              borderRadius: 4, marginTop: Constant.normalMarginEdge,
              paddingLeft: Constant.normalMarginEdge
          }, styles.shadowCard]}
-         itemText={'联系人/群组'}
-         onClickFun={() => {
-             Actions.ContactPage();
-         }}/>
-         <CommonRowItem
-         showIconNext={true}
-         topLine={false}
-         bottomLine={false}
-         itemIcon={"person"}
-         textStyle={[styles.centered, styles.normalText, {
-             textAlignVertical: 'center',
-             marginHorizontal: Constant.normalMarginEdge
-         }]}
-         iconSize={20}
-         viewStyle={[{
-             borderRadius: 4, marginTop: Constant.normalMarginEdge,
-             paddingLeft: Constant.normalMarginEdge
-         }, styles.shadowCard]}
-         itemText={'订单查询'}
-         onClickFun={() => {
-             Actions.AddContactPerson();
-         }}/>
-         <CommonRowItem
-         showIconNext={true}
-         topLine={false}
-         bottomLine={false}
-         itemIcon={"person"}
-         textStyle={[styles.centered, styles.normalText, {
-             textAlignVertical: 'center',
-             marginHorizontal: Constant.normalMarginEdge
-         }]}
-         iconSize={20}
-         viewStyle={[{
-             borderRadius: 4, marginTop: Constant.normalMarginEdge,
-             paddingLeft: Constant.normalMarginEdge
-         }, styles.shadowCard]}
-         itemText={'取名暂存'}
+         itemText={'群组管理'}
          onClickFun={() => {
              Actions.PersonInfoPage();
          }}/>
+         <CommonRowItem
+         showIconNext={true}
+         topLine={false}
+         bottomLine={false}
+         itemIcon={"person"}
+         textStyle={[styles.centered, styles.normalText, {
+             textAlignVertical: 'center',
+             marginHorizontal: Constant.normalMarginEdge
+         }]}
+         iconSize={20}
+         viewStyle={[{
+             borderRadius: 4, marginTop: Constant.normalMarginEdge,
+             paddingLeft: Constant.normalMarginEdge
+         }, styles.shadowCard]}
+         itemText={'新建联系人'}
+         onClickFun={() => {
+             Actions.AddContactPage();
+         }}/>
+         
          <View style={_styles.testContainer}>
-            <Text style={_styles.testTitle}>
-                测算记录
-            </Text>
             <View style={_styles.testItemContainer}>
-                <TestRecoreList 
-                  testRecordData= {testRecordData}
-                  deleteRow= {this.deleteRow}
+                {
+                    contactData && contactData.length && <ContactList 
+                    listStyle={{flex: 1, backgroundColor: Constant.white, marginTop: Constant.normalMarginEdge * 2}}
+                    selectIndex={{'filerType': 0, 'filterSort': 0, "filterLanguage": 0}}
+                    selectMap={contactData}
+                    onSelect={(selection, data) => {
+                        switch (selection) {
+                            case "filerType":
+                                Actions.pop({refresh: {selectTypeData: data}});
+                                DeviceEventEmitter.emit("SearchPage", {selectTypeData: data})
+                                break;
+                            case "filterLanguage":
+                                Actions.pop({refresh: {selectLanguageData: data}});
+                                DeviceEventEmitter.emit("SearchPage", {selectLanguageData: data})
+                                break;
+                            case "filterSort":
+                                Actions.pop({refresh: {selectSortData: data}});
+                                DeviceEventEmitter.emit("SearchPage", {selectSortData: data})
+                                break;
+                        }
+
+                    }}
                 />
+                }
             </View>
          </View>
       </View>
@@ -116,7 +116,7 @@ export default class DataManagePage extends Component {
 }
 
 const _styles = StyleSheet.create({
-  datamanageContainer: {
+  contactPageContainer: {
 
   },
   testContainer: {

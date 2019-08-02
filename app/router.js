@@ -11,6 +11,12 @@ import OtherPage from './views/other/OtherPage';
 import SearchPage from './components/SearchPage';
 import SettingPage from './views/setting/SettingPage';
 
+// 数据管理
+// 联系人
+import ContactPage from './views/dataManage/contact/ContactPage';
+// 新建联系人
+import AddContactPage from './views/dataManage/contact/AddContactPage';
+
 import LoadingModal from './components/common/LoadingModal';
 import CommonBottomModal from './components/common/CommonBottomModal';
 import CommonConfirmModal from './components/common/CommonConfirmModal';
@@ -23,8 +29,6 @@ import TabIcon from './components/widget/TabIcon';
 import BackUtils from './utils/backUtils';
 import I18n, { changeLocale } from './style/i18n';
 import * as Constant from './style/constant' ;
-// import { View,Text } from "react-native";
-// // import console = require('console');
 import { screenWidth, drawerWidth } from "./style/index";
 import styles from './style' ;
 
@@ -32,6 +36,9 @@ import styles from './style' ;
 // /**
 //  * 全局路由
 //  */
+tanBar = (par) => {
+  console.log(par);
+}
 const getRouter = () =>  {
     // <View ><Text>12222111</Text></View>
    return ( 
@@ -109,17 +116,21 @@ const getRouter = () =>  {
             >
             </Scene>
           </Scene>
-          {
-            //联系管理员
-          }
-            {
-              //设置页面
-            }
             <Scene
                 key="SettingPage"
                 component={SettingPage}
                 title={I18n('setting')}
               />
+            <Scene
+              key="ContactPage"
+              component={ContactPage}
+              title={I18n('contact')}
+            />
+            <Scene
+              key="AddContactPage"
+              component={AddContactPage}
+              title={I18n('addContact')}
+            />
           <Drawer
             key="SearchPageDrawer"
             contentComponent={DrawerFilter}
