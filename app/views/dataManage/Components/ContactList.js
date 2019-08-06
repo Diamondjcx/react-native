@@ -12,7 +12,7 @@ import styles from '../../../style/index'
 import I18n from '../../../style/i18n'
 
 
-class SearchFilterSelectList extends Component {
+class ContactList extends Component {
 
     constructor(props) {
         super(props);
@@ -102,12 +102,12 @@ const propTypes = {
     onSelect: PropTypes.func,
 };
 
-SearchFilterSelectList.propTypes = propTypes;
+ContactList.propTypes = propTypes;
 
-SearchFilterSelectList.defaultProps = {
+ContactList.defaultProps = {
     selectMap: {},
     selectIndex: {},
     listStyle: {},
 };
 
-export default SearchFilterSelectList;
+export default ContactList;

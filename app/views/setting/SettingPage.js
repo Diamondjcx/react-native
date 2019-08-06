@@ -46,10 +46,6 @@ export default class SettingPage extends Component {
     }
 
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        // this.initLanguage();
-    }
-
     initLanguage() {
         getLanguageCurrent().then((res) => {
             let language = (res && res.languageName) ? I18n(res.languageName) : I18n("systemLanguage");
@@ -81,7 +77,7 @@ export default class SettingPage extends Component {
                     }, styles.shadowCard]}
                     itemText={I18n('person')}
                     onClickFun={() => {
-                        Actions.PersonInfoPage();
+                        Actions.GeneralPage();
                     }}/>
                 <CommonRowItem
                     showIconNext={true}

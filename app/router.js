@@ -17,6 +17,14 @@ import ContactPage from './views/dataManage/contact/ContactPage';
 // 新建联系人
 import AddContactPage from './views/dataManage/contact/AddContactPage';
 
+
+// 设置
+// 通用
+import GeneralPage from './views/setting/Components/GeneralPage';
+// 消息通知
+import NotificationPage from './views/setting/Components/NotificationPage';
+// h5 页面
+import H5Page from './views/h5Page/H5Page';
 import LoadingModal from './components/common/LoadingModal';
 import CommonBottomModal from './components/common/CommonBottomModal';
 import CommonConfirmModal from './components/common/CommonConfirmModal';
@@ -95,6 +103,7 @@ const getRouter = () =>  {
                 icon={TabIcon}
                 title={I18n('tabNameOption')}
                 tabIconName={'tabNameOption'}
+                hideNavBar
               >
               </Scene>
               <Scene 
@@ -122,6 +131,16 @@ const getRouter = () =>  {
                 title={I18n('setting')}
               />
             <Scene
+            key="GeneralPage"
+            component={GeneralPage}
+            title={'消息通知'}
+            />
+            <Scene
+            key="NotificationPage"
+            component={NotificationPage}
+            title={'通用'}
+            />
+            <Scene
               key="ContactPage"
               component={ContactPage}
               title={I18n('contact')}
@@ -147,6 +166,9 @@ const getRouter = () =>  {
             />
           </Drawer>
           
+
+          <Scene key="H5Page"><Scene component={H5Page} showLabel={true} hideNavBar />
+       </Scene>
         </Scene>
         <Scene key="ContactModal" component={ContactModal}/>
         <Scene key="LoadingModal" component={LoadingModal} />

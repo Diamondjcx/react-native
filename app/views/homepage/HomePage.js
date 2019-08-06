@@ -62,6 +62,17 @@ export default class HomePage extends Component {
                   <Text style={[]}>注册</Text>
               </View>
               </TouchableOpacity>
+              <TouchableOpacity 
+              onPress={() => {
+                  Actions.H5Page();
+              }}>
+              <View
+                  style={[{
+                    marginLeft: 10,
+                  }]}>
+                  <Text style={[]}>h5页面跳转</Text>
+              </View>
+              </TouchableOpacity>
            </View>
            <View style={styles.noDataBox}>
                 <Text>
