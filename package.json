@@ -35,7 +35,7 @@
     "redux-thunk": "^2.3.0",
     "rimraf": "^2.6.3",
     "tcomb-form-native": "^0.6.20",
-    "url-parse": "^1.4.7"
+    "url-parse": "^1.5.9"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
